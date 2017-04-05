@@ -7,6 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
+#import "OAuthManager.h"
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
@@ -19,6 +20,8 @@
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+  
+  [OAuthManager setupOAuthHandler:application];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"ReactProject"
@@ -33,5 +36,13 @@
   [self.window makeKeyAndVisible];
   return YES;
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [OAuthManager handleOpenUrl:application
+                             openURL:url
+                   sourceApplication:sourceApplication
+                          annotation:annotation];
+}
+
 
 @end
